@@ -1,0 +1,9 @@
+format: latex
+latex-engine: pdflatex
+V: geometry:letterpaper
+   geometry:margin=.5
+   fontsize:10pt
+   classoption:oneside
+s:
+mathjax:
+number-sections:

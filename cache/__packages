@@ -1,0 +1,11 @@
+base
+ggplot2
+gridExtra
+knitr
+leaps
+locfit
+mgcv
+nlme
+TSA
+tseries
+xtable

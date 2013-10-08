@@ -1,0 +1,529 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Assignment #3
+\end_layout
+
+\begin_layout Author
+Robert Smith
+\end_layout
+
+\begin_layout Enumerate
+Consider an ARMA(1,1) model with 
+\begin_inset Formula $\phi=0.5$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta=-0.45$
+\end_inset
+
+ with 
+\begin_inset Formula $\mu=3$
+\end_inset
+
+ and 
+\begin_inset Formula $\sim N(0,1)$
+\end_inset
+
+ errors.
+
+\begin_inset Newline newline
+\end_inset
+
+
+\lang english
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+<<Q1a,message=FALSE,warnings=FALSE,results='asis',comment="">>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+library(TSA)
+\end_layout
+
+\begin_layout Plain Layout
+
+library(xtable)
+\end_layout
+
+\begin_layout Plain Layout
+
+library(ggplot2)
+\end_layout
+
+\begin_layout Plain Layout
+
+library(gridExtra)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ARMA11 <- function(n, phi, theta) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  # modify theta for Cryer definition
+\end_layout
+
+\begin_layout Plain Layout
+
+  theta <- theta * -1 
+\end_layout
+
+\begin_layout Plain Layout
+
+  return(
+\end_layout
+
+\begin_layout Plain Layout
+
+    data.frame(
+\end_layout
+
+\begin_layout Plain Layout
+
+      var_phi = ((1 - phi**2) / n) * (((1 - phi * theta) / (phi - theta))**2),
+\end_layout
+
+\begin_layout Plain Layout
+
+      var_theta = ((1 - theta**2) / n) * (((1 - phi * theta) / (phi - theta))**2
+),
+\end_layout
+
+\begin_layout Plain Layout
+
+      corr = sqrt((1 - phi**2) * (1 - theta**2)) / (1 - phi * theta)
+\end_layout
+
+\begin_layout Plain Layout
+
+    ))
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+print(
+\end_layout
+
+\begin_layout Plain Layout
+
+  xtable(
+\end_layout
+
+\begin_layout Plain Layout
+
+    ARMA11(n = 100, phi = 0.5, theta = -0.45), 
+\end_layout
+
+\begin_layout Plain Layout
+
+    digits = 6, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    caption = "Question 1-a"
+\end_layout
+
+\begin_layout Plain Layout
+
+  ), 
+\end_layout
+
+\begin_layout Plain Layout
+
+  type = "latex", 
+\end_layout
+
+\begin_layout Plain Layout
+
+  caption.placement = "top")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+print(
+\end_layout
+
+\begin_layout Plain Layout
+
+  xtable(
+\end_layout
+
+\begin_layout Plain Layout
+
+    ARMA11(n = 300, phi = 0.5, theta = -0.45), 
+\end_layout
+
+\begin_layout Plain Layout
+
+    digits = 6, 
+\end_layout
+
+\begin_layout Plain Layout
+
+    caption = "Question 1-b"
+\end_layout
+
+\begin_layout Plain Layout
+
+  ), type = "latex", 
+\end_layout
+
+\begin_layout Plain Layout
+
+  caption.placement = "top")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+<<Q1C,message=FALSE,warnings=FALSE,fig.path="~/figure/A3-">>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ARIMA.MC <- function(reps, sample.size, phi, theta, mean, err = list(mean
+ = 0, sd = 1)) {   
+\end_layout
+
+\begin_layout Plain Layout
+
+  # correcting to Cryer theta notation
+\end_layout
+
+\begin_layout Plain Layout
+
+  theta <- theta * -1
+\end_layout
+
+\begin_layout Plain Layout
+
+  # chained output initializers
+\end_layout
+
+\begin_layout Plain Layout
+
+  mle <- vars <- matrix(0, ncol = 3, nrow = reps)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  for (i in 1:reps) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    sim <- arima.sim(
+\end_layout
+
+\begin_layout Plain Layout
+
+      n = sample.size,
+\end_layout
+
+\begin_layout Plain Layout
+
+      list(ar = phi, ma = theta),
+\end_layout
+
+\begin_layout Plain Layout
+
+      innov = rnorm(sample.size, err$mean, err$sd)
+\end_layout
+
+\begin_layout Plain Layout
+
+    ) + mean
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    est <- arima(sim, order = c(1, 0, 1))
+\end_layout
+
+\begin_layout Plain Layout
+
+    mle[i,] <- est$coef  
+\end_layout
+
+\begin_layout Plain Layout
+
+    vars[i,] <- diag(est$var.coef)
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  return(as.data.frame(cbind(mle,vars)))
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Q1C.100 <- ARIMA.MC(reps = 1000, sample.size = 100, phi = 0.5, theta = -0.45,
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+                    mean = 3, err = list(mean = 0, sd = 1) )
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+MLE <- as.data.frame(Q1C.100[,1])
+\end_layout
+
+\begin_layout Plain Layout
+
+VARS <- as.data.frame(Q1C.100[,4])
+\end_layout
+
+\begin_layout Plain Layout
+
+names(MLE) <- names(VARS) <- "data"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+plot1 <- ggplot(MLE, aes(x = data, y = ..density..)) +    
+\end_layout
+
+\begin_layout Plain Layout
+
+  geom_histogram(binwidth = sum(abs(range(MLE$data)))/50 ) +    
+\end_layout
+
+\begin_layout Plain Layout
+
+  geom_density(color = "red", fill = NA)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+plot2 <- ggplot(VARS, aes(x = data, y = ..density..)) +    
+\end_layout
+
+\begin_layout Plain Layout
+
+  geom_histogram(binwidth = sum(abs(range(VARS$data)))/50 ) +    
+\end_layout
+
+\begin_layout Plain Layout
+
+  geom_density(color = "red", fill = NA)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+grid.arrange(plot1, plot2, ncol=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
