@@ -1,0 +1,62 @@
+% In-class Exercise 2: Fitting Accident Data with seasonal ARIMA
+% Robert Smith
+% \today
+
+1. Read in acci.txt file from the course web site. Plot the time series. Does the plot looks stationary? Test for the stationarity using adf, pp, and kpss tests. What is your conculusion? 
+
+```{r Q1,warning=FALSE,error=FALSE,message=FALSE} 
+library(TSA)
+
+acci_df <- read.csv("acci.txt")
+acci <- ts(acci_df, frequency=12)
+
+plot(acci)
+
+temp <-adf.test(acci)
+pp.test(acci)
+kpss.test(acci)
+
+```
+
+Based on the plot I cannot see any clear trends by eye, and all of the tests (ADF, PP & KPSS) also confirm that the data set is stationary.
+
+2. Model the data using ARIMA(p,1,q)x(P,1,Q)12 model. Is the model fit adequate? How did you deteremine values of p,q,P,and Q?
+
+```{r Q2,warning=FALSE,error=FALSE,message=FALSE} 
+
+library(forecast)
+
+(est <- auto.arima(acci, d = 1, D = 1))
+plot(forecast(est))
+
+```
+
+When I ran `auto.arima` to find the values of p, q, P & Q I found that the function was not able to find a reasonalble forecast. Based on the $\sigma$ coefficient being 0.123 & 0.179 and an AIC of `r round(est$aic, 2)` I do not believe the model fit to be adequate. 
+
+3. Model the data using ARIMA(p,0,q)x(P,1,Q)12 model. Is the model fit adequate? How did you deteremine values of p,q,P,and Q?
+
+```{r Q3,warning=FALSE,error=FALSE,message=FALSE} 
+
+(est <- auto.arima(acci, d = 0, D = 1))
+plot(forecast(est))
+
+```
+
+When I ran `auto.arima` to find the values of p, q, P & Q I found that the function was not able to find a reasonalble forecast. Based on the $\sigma$ coefficient being 0.138, 0.143, 0.142 & 18.56 and an AIC of `r round(est$aic, 2)` I do not believe the model fit to be adequate either. 
+
+4. Is there a non-seasonal model ARIMA(p,d,q) that fits the data? 
+
+```{r Q4,warning=FALSE,error=FALSE,message=FALSE} 
+
+(est <- auto.arima(acci, seasonal = FALSE))
+plot(forecast(est))
+
+```
+
+When I ran `auto.arima` to find the values of p, q, P & Q I found that the function was not able to find a reasonalble forecast with the 'd' term equal to 0. Based on the 's.e' coefficient showing a poor fit and an AIC of `r round(est$aic, 2)` I do not believe the model fit to be adequate, less so than the previous models which include the assumption of seasonality. 
+
+5. What is the conceptual difference between model (2) and model (3)? Which model do you like better and why? 
+
+The conceptual difference between models #2 and #3 are that #2 differences both month-over-month and year-over-year, and #3 differences only year-over-year, neglecting the month-over-month information.
+
+In this instance, I prefer the model created by #2 because I believe that this time series has a relationship with both year-over-year data (for seasonality considerations) and it also requires detrending month-over-month to add stationarity. While comparing the AIC and related statistics show the model from #3 is somewhat better, $\sigma^2$ and log likelihood both favor model #2 which make me believe that this model has greater predictive power.

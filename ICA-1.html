@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title></title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+</head>
+
+<body>
+<ol>
+<li>Read in dowj.txt file.  Plot the time series. Does the plot looks stationary? Plot ACF and PACF of the series. Test for the stationarity using Augmented Dickey-Fuller Unit-Root test.</li>
+</ol>
+
+<pre><code class="r">
+Randomness.tests &lt;- function(A, plott = FALSE) {
+
+    library(tseries)
+
+    L1 &lt;- Box.test(A, lag = 15, type = &quot;Ljung-Box&quot;)
+    L2 &lt;- Box.test(A, lag = 20, type = &quot;Ljung-Box&quot;)
+    L3 &lt;- Box.test(A, lag = 25, type = &quot;Ljung-Box&quot;)
+    L4 &lt;- Box.test(A^2, lag = 15, type = &quot;Ljung-Box&quot;)
+    L5 &lt;- Box.test(A^2, lag = 20, type = &quot;Ljung-Box&quot;)
+    L6 &lt;- wilcox.test(A)
+    L7 &lt;- jarque.bera.test(A)
+    S1 &lt;- sd(A)
+
+    if (plott) {
+        layout(matrix(c(rep(1, 8), 2, 3, 4, 8, 5, 6, 7, 8), 4, 4, byrow = T))
+        plot(A, type = &quot;l&quot;)
+        acf(A)
+        pacf(A)
+        plot(density(A, bw = &quot;SJ-ste&quot;), main = &quot;&quot;)
+        acf(abs(A))
+        acf(A^2)
+        qqnorm(A)
+
+        plot(c(-1, -1), xlim = c(0, 1), ylim = c(0, 1), ann = F, axes = F)
+
+        text(0.5, 0.95, paste(&quot;Box-Ljung test&quot;), cex = 1.3)
+        text(0.5, 0.9, paste(&quot;H=15:p= &quot;, round(L1$p.value, 4)), cex = 1)
+        text(0.5, 0.85, paste(&quot;H=20:p= &quot;, round(L2$p.value, 4)), cex = 1)
+        text(0.5, 0.8, paste(&quot;H=25:p= &quot;, round(L3$p.value, 4)), cex = 1)
+        text(0.5, 0.7, paste(&quot;McLeod-Li test&quot;), cex = 1.3)
+        text(0.5, 0.65, paste(&quot;H=15:p= &quot;, round(L4$p.value, 4)), cex = 1)
+        text(0.5, 0.6, paste(&quot;H=20:p= &quot;, round(L5$p.value, 4)), cex = 1)
+        text(0.5, 0.5, paste(&quot;Wilcoxson test&quot;), cex = 1.3)
+        text(0.5, 0.45, paste(&quot;p= &quot;, round(L6$p.value, 4)), cex = 1)
+        text(0.5, 0.35, paste(&quot;Jaque-Bera test&quot;), cex = 1.3)
+        names(L7$p.value) &lt;- &quot;&quot;
+        text(0.5, 0.3, paste(&quot;p= &quot;, round(L7$p.value, 4)), cex = 1)
+        text(0.5, 0.2, paste(&quot;sample SD &quot;, round(S1, 4)), cex = 1)
+
+        layout(matrix(1, 1, 1))
+    }
+
+    return(t(t(c(BL15 = round(L1$p.value, 4), BL20 = round(L2$p.value, 4), BL25 = round(L3$p.value, 
+        4), ML15 = round(L4$p.value, 4), ML20 = round(L5$p.value, 4), WX = round(L6$p.value, 
+        4), JB = round(L7$p.value, 4), SD = round(S1, 4)))))
+
+}
+
+D &lt;- read.csv(&quot;http://gozips.uakron.edu/~nmimoto/pages/datasets/dowj.csv&quot;)
+D1 &lt;- ts(D, start = c(1, 1), freq = 1)
+
+plot(D1, type = &quot;o&quot;)
+acf(D1)
+pacf(D1)
+adf.test(D1, alternative = &quot;stationary&quot;)
+</code></pre>
+
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  D1
+## Dickey-Fuller = -1.805, Lag order = 4, p-value = 0.6552
+## alternative hypothesis: stationary
+</code></pre>
+
+<p>The as-is data does not appear to be stationary because the mean does not appear to be stationary over time. When we apply the acf() function we can see significant autocorrelation over approximately 20 lags. When the pacf() function is applied it tails off after lag-zero, thus indicating a potential AR or ARMA model.</p>
+
+<p>Based on the results of the Augmented Dickey-Fuller Unit-Root test for statinarity, p-value = 0.6552 and therefore we fail to reject \( H_0 \), and therefore cannot find that the time series has unit root and is stationary.</p>
+
+<ol>
+<li>Take the difference of dowj data. Plot the time series. Does the plot looks stationary? Plot ACF and PACF of the series. What does ADF test say about stationarity?</li>
+</ol>
+
+<pre><code class="r">
+D2 &lt;- diff(D1)
+plot(D2, type = &quot;o&quot;)
+acf(D2)
+pacf(D2)
+adf.test(D2, alternative = &quot;stationary&quot;)
+</code></pre>
+
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  D2
+## Dickey-Fuller = -2.034, Lag order = 4, p-value = 0.5617
+## alternative hypothesis: stationary
+</code></pre>
+
+<p>The plot appears more stationary than the raw data, but when the ADF test is applied the p-value of 0.5617 shows that the we still reject \( H_0 \) and cannot say the time-series is stationary.</p>
+
+<ol>
+<li>Take additional difference of dowj data. Plot the time series. Does the plot looks stationary? Plot ACF and PACF of the series. What does ADF test say about stationarity?</li>
+</ol>
+
+<pre><code class="r">D3 &lt;- diff(D2)
+plot(D3, type = &quot;o&quot;)
+acf(D3)
+pacf(D3)
+adf.test(D3, alternative = &quot;stationary&quot;)
+</code></pre>
+
+<pre><code>## Warning: p-value smaller than printed p-value
+</code></pre>
+
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  D3
+## Dickey-Fuller = -5.905, Lag order = 4, p-value = 0.01
+## alternative hypothesis: stationary
+</code></pre>
+
+<p>Based on the view of the data which has been further differenced the graph does not appear to be significantly different by eye, but when the ADF test was applied a p-value &lt; 0.01 was found and therefore we fail to reject \( H_0 \) and find that it is possible that this time-series is stationary.</p>
+
+<p>2b. Now based on what we saw in question 2, model the origianl dowj data with ARIMA(p, 1, q). Use auto.arima() in forecast package to choose p and q based on AICc. Diagnose the residual after the fit.  Is the model fitting well? If not, manually search for better value of p and q.  </p>
+
+<pre><code class="r">library(forecast)
+
+auto.arima(D1, d = 1, stepwise = FALSE, seasonal = FALSE, trace = TRUE)
+</code></pre>
+
+<pre><code>## 
+##  ARIMA(0,1,0)                    : 95.78
+##  ARIMA(0,1,0) with drift         : 89.48
+##  ARIMA(0,1,1)                    : 83.58
+##  ARIMA(0,1,1) with drift         : 80.34
+##  ARIMA(0,1,2)                    : 79.96
+##  ARIMA(0,1,2) with drift         : 78.31
+##  ARIMA(0,1,3)                    : 81.95
+##  ARIMA(0,1,3) with drift         : 80.55
+##  ARIMA(0,1,4)                    : 80.31
+##  ARIMA(0,1,4) with drift         : 79.84
+##  ARIMA(0,1,5)                    : 82.67
+##  ARIMA(0,1,5) with drift         : 82.25
+##  ARIMA(1,1,0)                    : 76.54
+##  ARIMA(1,1,0) with drift         : 75.71
+##  ARIMA(1,1,1)                    : 75.71
+##  ARIMA(1,1,1) with drift         : 76.38
+##  ARIMA(1,1,2)                    : 76.58
+##  ARIMA(1,1,2) with drift         : 77.75
+##  ARIMA(1,1,3)                    : 78.42
+##  ARIMA(1,1,3) with drift         : 79.7
+##  ARIMA(1,1,4)                    : 79.8
+##  ARIMA(1,1,4) with drift         : 81.05
+##  ARIMA(2,1,0)                    : 76.98
+##  ARIMA(2,1,0) with drift         : 76.88
+##  ARIMA(2,1,1)                    : 79.21
+##  ARIMA(2,1,1) with drift         : 78.89
+##  ARIMA(2,1,2)                    : 78.66
+##  ARIMA(2,1,2) with drift         : 81.02
+##  ARIMA(2,1,3)                    : 79.36
+##  ARIMA(2,1,3) with drift         : 80.73
+##  ARIMA(3,1,0)                    : 78.92
+##  ARIMA(3,1,0) with drift         : 79.09
+##  ARIMA(3,1,1)                    : 78.66
+##  ARIMA(3,1,1) with drift         : 79.93
+##  ARIMA(3,1,2)                    : 80.61
+##  ARIMA(3,1,2) with drift         : 81.95
+##  ARIMA(4,1,0)                    : 78.26
+##  ARIMA(4,1,0) with drift         : 79.11
+##  ARIMA(4,1,1)                    : 80.56
+##  ARIMA(4,1,1) with drift         : 81.39
+##  ARIMA(5,1,0)                    : 80.61
+##  ARIMA(5,1,0) with drift         : 81.51
+</code></pre>
+
+<pre><code>## Series: D1 
+## ARIMA(1,1,1)                    
+## 
+## Coefficients:
+##         ar1     ma1
+##       0.851  -0.526
+## s.e.  0.138   0.255
+## 
+## sigma^2 estimated as 0.143:  log likelihood=-34.69
+## AIC=75.38   AICc=75.71   BIC=82.41
+</code></pre>
+
+<pre><code class="r">ARIMA1 &lt;- auto.arima(D1, d = 1, stepwise = FALSE, seasonal = FALSE)
+
+adf.test(ARIMA1$residuals, alternative = &quot;stationary&quot;)
+</code></pre>
+
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  ARIMA1$residuals
+## Dickey-Fuller = -3.961, Lag order = 4, p-value = 0.01591
+## alternative hypothesis: stationary
+</code></pre>
+
+<pre><code class="r">Randomness.tests(ARIMA1$residuals)
+</code></pre>
+
+<pre><code>##                [,1]
+## BL15         0.2869
+## BL20         0.0877
+## BL25         0.0943
+## ML15         0.7007
+## ML20         0.5222
+## WX           0.5141
+## JB.X-squared 0.0480
+## SD           0.3771
+</code></pre>
+
+<pre><code class="r">
+summary(ARIMA1)
+</code></pre>
+
+<pre><code>## Series: D1 
+## ARIMA(1,1,1)                    
+## 
+## Coefficients:
+##         ar1     ma1
+##       0.851  -0.526
+## s.e.  0.138   0.255
+## 
+## sigma^2 estimated as 0.143:  log likelihood=-34.69
+## AIC=75.38   AICc=75.71   BIC=82.41
+## 
+## Training set error measures:
+##                   ME   RMSE  MAE     MPE   MAPE   MASE     ACF1
+## Training set 0.03566 0.3764 0.29 0.03178 0.2492 0.8488 -0.07309
+</code></pre>
+
+<p>Given the above code, I find that ARIMA(1,1,1) is the model with the lowest AIC &amp; standard error. Using &#39;stepwise = FALSE&#39; outputs the AIC statistic of each model tested, which is how I verified that this model was the best of the group.</p>
+
+<p>2c. Using the model you came up in the previous question, give 5-day prediction of dowj value. Plot the data(black) and predictioin(red) on the same plot. The range of x-axis must be suitablly chosen. </p>
+
+<pre><code class="r">
+plot(forecast(ARIMA1, h = 5), fcol = 2)
+</code></pre>
+
+<p>2d. In part (2-b), your ARIMA parameter estimation gave standard errors for estimation.  Can you trust that number?  Why?  How would you verify?</p>
+
+<p>I would verify the standard error through simulation of values from a known distribution. If the simulation comes up with similar values for the standard error and then track the ratio of predicted values vs. those that fall within the interval for the simulation.</p>
+
+<p>3b. Now based on what we saw in question 3, model the origianl dowj data with ARIMA(p, 2, q).   Use auto.arima() in forecast package to choose p and q based on AICc. Diagnose the residual after the fit.  Is the model fitting well? If not, manually search for better value of p and q.</p>
+
+<pre><code class="r">
+auto.arima(D3, d = 2, stepwise = FALSE, seasonal = FALSE, trace = TRUE)
+</code></pre>
+
+<pre><code>## 
+##  ARIMA(0,2,0)                    : 252.1
+##  ARIMA(0,2,1)                    : 1e+20
+##  ARIMA(0,2,2)                    : 1e+20
+##  ARIMA(0,2,3)                    : 1e+20
+##  ARIMA(0,2,4)                    : 97.1
+##  ARIMA(0,2,5)                    : 98.47
+##  ARIMA(1,2,0)                    : 199.2
+##  ARIMA(1,2,1)                    : 1e+20
+##  ARIMA(1,2,2)                    : 1e+20
+##  ARIMA(1,2,3)                    : 96.03
+##  ARIMA(1,2,4)                    : 1e+20
+##  ARIMA(2,2,0)                    : 183.7
+##  ARIMA(2,2,1)                    : 1e+20
+##  ARIMA(2,2,2)                    : 1e+20
+##  ARIMA(2,2,3)                    : 98.19
+##  ARIMA(3,2,0)                    : 160.2
+##  ARIMA(3,2,1)                    : 1e+20
+##  ARIMA(3,2,2)                    : 1e+20
+##  ARIMA(4,2,0)                    : 152.3
+##  ARIMA(4,2,1)                    : 1e+20
+##  ARIMA(5,2,0)                    : 151
+</code></pre>
+
+<pre><code>## Series: D3 
+## ARIMA(1,2,3)                    
+## 
+## Coefficients:
+##         ar1     ma1    ma2     ma3
+##       0.391  -2.953  2.923  -0.970
+## s.e.  0.125   0.086  0.170   0.086
+## 
+## sigma^2 estimated as 0.143:  log likelihood=-42.57
+## AIC=95.14   AICc=96.03   BIC=106.7
+</code></pre>
+
+<pre><code class="r">ARIMA3 &lt;- auto.arima(D1, d = 2, stepwise = FALSE, seasonal = FALSE)
+
+adf.test(ARIMA3$residuals, alternative = &quot;stationary&quot;)
+</code></pre>
+
+<pre><code>## Warning: p-value smaller than printed p-value
+</code></pre>
+
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  ARIMA3$residuals
+## Dickey-Fuller = -4.163, Lag order = 4, p-value = 0.01
+## alternative hypothesis: stationary
+</code></pre>
+
+<pre><code class="r">Randomness.tests(ARIMA3$residuals)
+</code></pre>
+
+<pre><code>##                [,1]
+## BL15         0.2781
+## BL20         0.0687
+## BL25         0.0655
+## ML15         0.6047
+## ML20         0.4360
+## WX           0.8343
+## JB.X-squared 0.2311
+## SD           0.3786
+</code></pre>
+
+<pre><code class="r">
+summary(ARIMA3)
+</code></pre>
+
+<pre><code>## Series: D1 
+## ARIMA(1,2,1)                    
+## 
+## Coefficients:
+##         ar1     ma1
+##       0.248  -0.839
+## s.e.  0.145   0.082
+## 
+## sigma^2 estimated as 0.145:  log likelihood=-34.85
+## AIC=75.7   AICc=76.03   BIC=82.69
+## 
+## Training set error measures:
+##                     ME   RMSE    MAE       MPE   MAPE   MASE     ACF1
+## Training set -0.006313 0.3762 0.2911 -0.002538 0.2498 0.8519 0.008372
+</code></pre>
+
+<pre><code class="r">accuracy(ARIMA3)
+</code></pre>
+
+<pre><code>##                     ME   RMSE    MAE       MPE   MAPE   MASE     ACF1
+## Training set -0.006313 0.3762 0.2911 -0.002538 0.2498 0.8519 0.008372
+</code></pre>
+
+<p>With a MA \( \sigma_e = 0.1447 \) and AR \( \sigma_e = 0.0819 \) I see an improvement in the fit of the forecast. The improvement is light for AR, but quite significant for MA.</p>
+
+<p>3c. Using the model you came up in the previous question, give 5-day prediction of dowj value.  Plot the data(black) and predictioin(red) on the same plot. The range of x-axis must be suitablly chosen. </p>
+
+<pre><code class="r">
+plot(forecast(ARIMA3, h = 5), fcol = 2)
+</code></pre>
+
+<ol>
+<li>(optional) Can you come up with some other way of fitting the dowj model?<br/></li>
+</ol>
+
+<pre><code class="r">
+ARIMA.MDL &lt;- vector(&quot;list&quot;, length = 4)
+
+for (i in 1:4) {
+    ARIMA.MDL[[i]] &lt;- auto.arima(D1, d = i, stepwise = FALSE, seasonal = FALSE)
+    summary(ARIMA.MDL[[i]])
+    plot(forecast(ARIMA.MDL[[i]], 5), fcol = 2)
+    adf.test(ARIMA.MDL[[i]]$residuals, alternative = &quot;stationary&quot;)
+    Randomness.tests(ARIMA.MDL[[i]]$residuals)
+    cat(&quot;\n\n&quot;)
+}
+</code></pre>
+
+<pre><code>## Series: D1 
+## ARIMA(1,1,1)                    
+## 
+## Coefficients:
+##         ar1     ma1
+##       0.851  -0.526
+## s.e.  0.138   0.255
+## 
+## sigma^2 estimated as 0.143:  log likelihood=-34.69
+## AIC=75.38   AICc=75.71   BIC=82.41
+## 
+## Training set error measures:
+##                   ME   RMSE  MAE     MPE   MAPE   MASE     ACF1
+## Training set 0.03566 0.3764 0.29 0.03178 0.2492 0.8488 -0.07309
+</code></pre>
+
+<pre><code>## 
+## 
+## Series: D1 
+## ARIMA(1,2,1)                    
+## 
+## Coefficients:
+##         ar1     ma1
+##       0.248  -0.839
+## s.e.  0.145   0.082
+## 
+## sigma^2 estimated as 0.145:  log likelihood=-34.85
+## AIC=75.7   AICc=76.03   BIC=82.69
+## 
+## Training set error measures:
+##                     ME   RMSE    MAE       MPE   MAPE   MASE     ACF1
+## Training set -0.006313 0.3762 0.2911 -0.002538 0.2498 0.8519 0.008372
+</code></pre>
+
+<pre><code>## Warning: p-value smaller than printed p-value
+</code></pre>
+
+<pre><code>## 
+## 
+## Series: D1 
+## ARIMA(0,3,3)                    
+## 
+## Coefficients:
+##          ma1    ma2    ma3
+##       -1.615  0.405  0.228
+## s.e.   0.112  0.184  0.117
+## 
+## sigma^2 estimated as 0.147:  log likelihood=-37.83
+## AIC=83.65   AICc=84.23   BIC=92.92
+## 
+## Training set error measures:
+##                    ME  RMSE    MAE      MPE   MAPE   MASE    ACF1
+## Training set -0.03695 0.377 0.2903 -0.02965 0.2492 0.8495 0.08893
+</code></pre>
+
+<pre><code>## 
+## 
+## Series: D1 
+## ARIMA(1,4,3)                    
+## 
+## Coefficients:
+##         ar1     ma1    ma2     ma3
+##       0.427  -2.943  2.901  -0.958
+## s.e.  0.134   0.049  0.098   0.049
+## 
+## sigma^2 estimated as 0.144:  log likelihood=-45.92
+## AIC=101.8   AICc=102.7   BIC=113.3
+## 
+## Training set error measures:
+##                    ME   RMSE    MAE      MPE   MAPE   MASE    ACF1
+## Training set -0.02997 0.3702 0.2865 -0.02449 0.2456 0.8385 0.01291
+</code></pre>
+
+<ol>
+<li>Which model do you like better (2-b), (3-b) or 4? Why?</li>
+</ol>
+
+<p>I think that 3-b is the best. In 4 I used a simple loop to automatically check every combination of models from d = 1 to 4, and wasn&#39;t able to find a model with a smaller amount of standard error than the ARIMA(1,2,1) model selected earlier. Additionally, with the ARIMA(0,3,3) and ARIMA(1,4,3) models selected the AIC, AICc &amp; BIC statistic were noticably larger which indicates potential overfitting &amp; </p>
+
+</body>
+
+</html>
+

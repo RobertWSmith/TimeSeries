@@ -3,13 +3,64 @@
 % \today
 
 ```{r base_setup, include=FALSE}
-knit_hooks$set(fig.keep='none')
+# opts_chunk$set(fig.keep='none')
 library(TSA)
+library(forecast)
 ```
 
 1. Read in dowj.txt file.  Plot the time series. Does the plot looks stationary? Plot ACF and PACF of the series. Test for the stationarity using Augmented Dickey-Fuller Unit-Root test.
 
 ```{r Q1}
+
+Randomness.tests <- function( A, plott=FALSE) {
+
+  library(tseries) 
+
+  L1 <- Box.test(A,   lag = 15, type = "Ljung-Box")
+  L2 <- Box.test(A,   lag = 20, type = "Ljung-Box")
+  L3 <- Box.test(A,   lag = 25, type = "Ljung-Box")
+  L4 <- Box.test(A^2, lag = 15, type = "Ljung-Box")
+  L5 <- Box.test(A^2, lag = 20, type = "Ljung-Box")
+  L6 <- wilcox.test(A)
+  L7 <- jarque.bera.test(A)
+  S1 <- sd(A)
+
+  if (plott) {
+    layout( matrix(c(rep(1,8),2,3,4,8,5,6,7,8), 4, 4, byrow=T) )
+    plot(A, type='l')
+    acf(A)
+    pacf(A)
+    plot(density(A, bw="SJ-ste"), main= "")
+    acf(abs(A))
+    acf(A^2)
+    qqnorm(A)
+
+    plot(c(-1,-1), xlim=c(0,1), ylim=c(0,1), ann=F, axes=F)
+
+    text( 0.5,0.95, paste("Box-Ljung test"), cex=1.3 )
+    text( 0.5,0.9,  paste("H=15:p= ", round(L1$p.value, 4)), cex=1 )
+    text( 0.5,0.85, paste("H=20:p= ", round(L2$p.value, 4)), cex=1 )
+    text( 0.5,0.8,  paste("H=25:p= ", round(L3$p.value, 4)), cex=1 )
+    text( 0.5,0.7,  paste("McLeod-Li test") , cex=1.3 )
+    text( 0.5,0.65, paste("H=15:p= ", round(L4$p.value, 4)), cex=1 )
+    text( 0.5,0.6,  paste("H=20:p= ", round(L5$p.value, 4)), cex=1 )
+    text( 0.5,0.5,  paste("Wilcoxson test") , cex=1.3 )
+    text( 0.5,0.45, paste("p= ", round(L6$p.value, 4)), cex=1 )
+    text( 0.5,0.35, paste("Jaque-Bera test") , cex=1.3 )
+    names(L7$p.value) <- ""
+    text( 0.5,0.3,  paste("p= ", round(L7$p.value, 4)), cex=1 )
+    text( 0.5,0.2,  paste("sample SD ", round(S1, 4)), cex=1 )
+
+    layout( matrix(1, 1, 1) )
+  }
+
+  return( t(t(c("BL15"=round(L1$p.value, 4), "BL20"=round(L2$p.value,4),
+  "BL25"=round(L3$p.value,4), "ML15"=round(L4$p.value,4),
+  "ML20"=round(L5$p.value,4), "WX"=round(L6$p.value,4), "JB"=round(L7$p.value,4), 
+  "SD" = round(S1, 4) ))))
+
+}
+
 D  <- read.csv("http://gozips.uakron.edu/~nmimoto/pages/datasets/dowj.csv")
 D1 <- ts(D, start=c(1,1), freq=1)
 
@@ -45,6 +96,7 @@ plot(D3, type='o')
 acf(D3)
 pacf(D3)
 adf.test(D3, alternative = "stationary")
+
 ```
 
 Based on the view of the data which has been further differenced the graph does not appear to be significantly different by eye, but when the ADF test was applied a p-value < 0.01 was found and therefore we fail to reject $H_0$ and find that it is possible that this time-series is stationary.
@@ -56,39 +108,50 @@ library(forecast)
 
 auto.arima(D1, d=1, stepwise=FALSE, seasonal=FALSE, trace=TRUE)
 ARIMA1 <- auto.arima(D1, d=1, stepwise=FALSE, seasonal=FALSE)
-ARIMA2 <- auto.arima(D1, d=1, stepwise=TRUE, seasonal=FALSE)
+
+adf.test(ARIMA1$residuals, alternative = "stationary")
+Randomness.tests(ARIMA1$residuals)
 
 summary(ARIMA1)
-summary(ARIMA2)
 
 ```
 
-Given the above code, I find that both ARIMA(1,1,1) & ARIMA(1,1,0) with drift are the two models with the lowest AIC each. While ARIMA(1,1,1)'s AIC is 0.001 less than the ARIMA(1,1,0) with drift's AIC when we look at the forecast of each model there are distinct differences.
+Given the above code, I find that ARIMA(1,1,1) is the model with the lowest AIC & standard error. Using 'stepwise = FALSE' outputs the AIC statistic of each model tested, which is how I verified that this model was the best of the group.
 
-2c. Using the model you came up in the previous question, give 5-day prediction of dowj value.  Plot the data(black) and predictioin(red) on the same plot. The range of x-axis must be suitablly chosen. 
+2c. Using the model you came up in the previous question, give 5-day prediction of dowj value. Plot the data(black) and predictioin(red) on the same plot. The range of x-axis must be suitablly chosen. 
 
 ```{r Q2C}
 
-
+plot(forecast(ARIMA1, h=5), fcol = 2)
 
 ```
 
 2d. In part (2-b), your ARIMA parameter estimation gave standard errors for estimation.  Can you trust that number?  Why?  How would you verify?
 
-```{r Q2D}
+I would verify the standard error through simulation of values from a known distribution. If the simulation comes up with similar values for the standard error and then track the ratio of predicted values vs. those that fall within the interval for the simulation.
 
-```
-
-3b. Now based on what we saw in question 3, model the origianl dowj data with ARIMA(p, 2, q).  
-# Use auto.arima() in forecast package to choose p and q based on AICc. Diagnose the residual after the fit.  Is the model fitting well? If not, manually search for better value of p and q.
+3b. Now based on what we saw in question 3, model the origianl dowj data with ARIMA(p, 2, q).   Use auto.arima() in forecast package to choose p and q based on AICc. Diagnose the residual after the fit.  Is the model fitting well? If not, manually search for better value of p and q.
 
 ```{r Q3B}
 
+auto.arima(D3, d=2, stepwise=FALSE, seasonal=FALSE, trace=TRUE)
+ARIMA3 <- auto.arima(D1, d=2, stepwise=FALSE, seasonal=FALSE)
+
+adf.test(ARIMA3$residuals, alternative = "stationary")
+Randomness.tests(ARIMA3$residuals)
+
+summary(ARIMA3)
+accuracy(ARIMA3)
+
 ```
 
-3c. Using the model you came up in the previous question, give 5-day prediction of dowj value.  Plot the data(black) and predictioin(red) on the same plot. The range of x-axis must be suitablly chosen. 
+With a MA $\sigma_e = 0.1447$ and AR $\sigma_e = 0.0819$ I see an improvement in the fit of the forecast. The improvement is light for AR, but quite significant for MA. Overall, I'm not sure if this is the best, but certain elements seem to be better.
+
+3c. Using the model you came up in the previous question, give 5-day prediction of dowj value. Plot the data(black) and predictioin(red) on the same plot. The range of x-axis must be suitablly chosen. 
 
 ```{r Q3C}
+
+plot(forecast(ARIMA3, h=5), fcol=2)
 
 ```
 
@@ -96,7 +159,32 @@ Given the above code, I find that both ARIMA(1,1,1) & ARIMA(1,1,0) with drift ar
 
 ```{r Q4}
 
+ARIMA.MDL <- vector("list", length = 4)
+
+bestAIC <- NULL
+
+for (p in 0:5) {
+  for (d in 0:5) {
+    for (q in 0:5) {
+      temp <- Arima(D1, order = c(p,d,q))
+      if (is.null(bestAIC)) bestAIC <- temp
+      else {
+        if (bestAIC$aic > temp$aic) {
+          bestAIC <- temp
+        }
+      }
+    }
+  }
+}
+
+summary(bestAIC)
+plot(forecast(bestAIC, 5), fcol=2)
+adf.test(bestAIC$residuals, alternative = "stationary")
+Randomness.tests(bestAIC$residuals)
+
+
 ```
 
 5. Which model do you like better (2-b), (3-b) or 4? Why?
 
+The exhaustive search I used in 4 found that ARIMA(1,1,1) is the best fit, which makes me agree with 2-b.

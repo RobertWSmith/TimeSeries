@@ -1,0 +1,65 @@
+#
+#  In-class Exercise: Fitting Dow Jones Data with ARIMA
+#
+#########################################################
+
+# Use This file as a template for your assignment.
+# Submitt your code and comments together with (selected) output from R console.
+# No need to submit the plots.
+
+
+# Your Name: Robert Smith	
+
+
+
+# 1. 
+# -----------------
+# Read in dowj.txt file.  Plot the time series. 
+# Does the plot looks stationary?  
+# Plot ACF and PACF of the series. 
+# Test for the stationarity using Augmented Dickey-Fuller Unit-Root test.
+
+
+```{r Q1}
+D  <- read.csv("http://gozips.uakron.edu/~nmimoto/pages/datasets/dowj.csv")
+D1 <- ts(D, start=c(1,1), freq=1)
+
+plot(D1, type='o')
+acf(D1)
+pacf(D1)
+adf.test(D1, alternative = "stationary")
+```
+
+The as-is data does not appear to be stationary because the mean does not appear to be stationary over time. When we apply the acf() function we can see significant autocorrelation over approximately 20 lags. When the pacf() function is applied it tails off after lag-zero, thus indicating a potential AR or ARMA model.
+
+Based on the results of the Augmented Dickey-Fuller Unit-Root test for statinarity, p-value = 0.6552 and therefore we fail to reject $H_0$, and therefore cannot find that the time series has unit root and is stationary.
+
+
+
+# 2. 
+# -----------------
+# Take the difference of dowj data. Plot the time series. 
+# Does the plot looks stationary?  
+# Plot ACF and PACF of the series. 
+# What does ADF test say about stationarity?
+
+```{r Q2}
+
+D2 <- diff(D1)
+plot(D2, type='o')
+acf(D2)
+pacf(D2)
+adf.test(D2, alternative = "stationary")
+
+```
+
+The plot appears more stationary than the raw data, but when the ADF test is applied the p-value of 0.5617 shows that the we still reject $H_0$ and cannot say the time-series is stationary.
+
+
+# 3. 
+# -----------------
+# Take additional difference of dowj data. Plot the time series. 
+# Does the plot looks stationary?  
+# Plot ACF and PACF of the series. 
+# What does ADF test say about stationarity?
+
