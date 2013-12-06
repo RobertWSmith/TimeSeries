@@ -12,7 +12,7 @@ acci <- ts(acci_df, frequency=12)
 
 plot(acci)
 
-temp <-adf.test(acci)
+adf.test(acci)
 pp.test(acci)
 kpss.test(acci)
 

@@ -6,4 +6,5 @@ figure/*
 *.pdf
 *.lyx~
 *.zip
-
+figure/*
+*.md
