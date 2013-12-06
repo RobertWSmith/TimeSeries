@@ -1,0 +1,199 @@
+# assumes that file is in the current working directory
+# change working directory with setwd("~/My Documents/..,")
+# confirm working directory with getwd()
+
+library(forecast)
+library(tseries)
+
+bt <- read.table("Bath Tissue Movement.csv")
+bt <- ts(bt, frequency = 7)
+
+adf.test(bt)
+pp.test(bt)
+
+plot(bt)
+acf(bt)
+pacf(bt)
+
+####################################
+### we like this one so far the best
+(bt_fcst <- auto.arima(bt, d = 1, D = 1))
+plot(forecast(bt_fcst))
+
+
+mc.estimate <- function(TS, Order, Seasonal, reps) {
+  library(fGarch) # for skew-t distribution
+  library(forecast) #for simulate.Arima function
+  stopifnot(length(reps) == 1) 
+  
+  Arima_est <- Arima(TS, order = Order, seasonal = Seasonal)
+  
+  for (i  in 1:reps) {
+    X <- simulate(Arima_est, bootstrap = TRUE) 
+    Est <- Arima(X, order = Order, seasonal = Seasonal)
+    if (i == 1) {
+      Vars <- MLE <- matrix(0, reps, length(Est$coef))
+    }
+    MLE[i, ] <- Est$coef
+    Vars[i, ] <- diag(Est$var.coef)
+  }
+  
+  df <- as.data.frame(cbind(MLE, Vars))
+  colnames(df) <- c(paste0("MLE", names(Est$coef)), paste0("VAR", names(diag(Est$var.coef))))
+  
+  return(df)
+}
+
+bootstrap.estimate <- function(TS, Order, Seasonal, reps) {
+  library(fGarch) # for skew-t distribution
+  library(forecast) #for simulate.Arima function
+  stopifnot(length(reps) == 1) 
+  
+  Arima_est <- Arima(TS, order = Order, seasonal = Seasonal)
+  res <- Arima_est$residuals
+  mle <- Arima_est$coef
+  
+  for (i  in 1:reps) {
+    et <- sample(res, length(res), replace = TRUE)
+    est2 <- simulate(Arima_est, innov = et)
+    est3 <- Arima(est2, order = Order, seasonal = Seasonal)
+    
+    X <- simulate(Arima_est, bootstrap = TRUE) 
+    Est <- Arima(X, order = Order, seasonal = Seasonal)
+    
+    if (i == 1) {
+      Vars <- MLE <- matrix(0, reps, length(Est$coef))
+    }
+    MLE[i, ] <- Est$coef
+    Vars[i, ] <- diag(Est$var.coef)
+  }
+  
+  df <- as.data.frame(cbind(MLE, Vars))
+  colnames(df) <- c(paste0("MLE", names(Est$coef)), paste0("VAR", names(diag(Est$var.coef))))
+  
+  return(df)
+}
+
+Order <- 0:2
+Seasonal <- list(order = Order, period = 7)
+
+mc <- mc.estimate(bt, Order, Seasonal, 1000)
+
+boot <- bootstrap.estimate(bt, Order, Seasonal, 1000)
+
+for (i in 1:ncol(mc)) {
+  print(hist(mc[[i]], main = paste("Histogram of", names(mc)[i])))
+}
+
+for (i in 1:ncol(boot)) {
+  print(hist(boot[[i]], main = paste("Histogram of", names(boot)[i])))
+}
+
+library(ggplot2)
+library(gridExtra)
+library(reshape)
+
+monte <- melt(mc)
+
+p1 <- ggplot(mc, aes(x = MLEma1)) + 
+  geom_histogram(aes(y= ..density..), binwidth = 0.01) + 
+  stat_density(col = "red", geom = "line") + 
+  geom_vline(xintercept = bt_fcst$coef[1], color = "blue") + 
+  geom_vline(xintercept = mean(mc[[1]]), color = "green" ) + 
+  labs(title = "Monte Carlo MLE MA(1)", x = "MLE MA(1)")
+
+p2 <- ggplot(mc, aes(x = MLEma2)) + 
+  geom_histogram(aes(y= ..density..), binwidth = 0.01) + 
+  stat_density(col = "red", geom = "line") +
+  geom_vline(xintercept = bt_fcst$coef[2], color = "blue") + 
+  geom_vline(xintercept = mean(mc[[2]]), color = "green" ) + 
+  labs(title = "Monte Carlo MLE MA(2)", x = "MLE MA(2)")
+
+p3 <- ggplot(mc, aes(x = MLEsma1)) + 
+  geom_histogram(aes(y= ..density..), binwidth = 0.01) + 
+  stat_density(col = "red", geom = "line") +
+  geom_vline(xintercept = bt_fcst$coef[3], color = "blue") + 
+  geom_vline(xintercept = mean(mc[[3]]), color = "green" ) + 
+  labs(title = "Monte Carlo MLE SMA(1)", x = "MLE SMA(1)")
+
+p4 <- ggplot(mc, aes(x = MLEsma2)) + 
+  geom_histogram(aes(y= ..density..), binwidth = 0.01) + 
+  stat_density(col = "red", geom = "line") +
+  geom_vline(xintercept = bt_fcst$coef[4], color = "blue") + 
+  geom_vline(xintercept = mean(mc[[4]]), color = "green" ) + 
+  labs(title = "Monte Carlo MLE SMA(2)", x = "MLE SMA(2)")
+
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+
+
+
+
+p1 <- ggplot(boot, aes(x = MLEma1)) + 
+  geom_histogram(aes(y= ..density..), binwidth = 0.01) + 
+  stat_density(col = "red", geom = "line") + 
+  geom_vline(xintercept = bt_fcst$coef[1], color = "blue") + 
+  geom_vline(xintercept = mean(boot[[1]]), color = "green" ) + 
+  labs(title = "Boostrap MLE MA(1)", x = "MLE MA(1)")
+
+p2 <- ggplot(boot, aes(x = MLEma2)) + 
+  geom_histogram(aes(y= ..density..), binwidth = 0.01) + 
+  stat_density(col = "red", geom = "line") +
+  geom_vline(xintercept = bt_fcst$coef[2], color = "blue") + 
+  geom_vline(xintercept = mean(boot[[2]]), color = "green" ) + 
+  labs(title = "Boostrap MLE MA(2)", x = "MLE MA(2)")
+
+p3 <- ggplot(boot, aes(x = MLEsma1)) + 
+  geom_histogram(aes(y= ..density..), binwidth = 0.01) + 
+  stat_density(col = "red", geom = "line") +
+  geom_vline(xintercept = bt_fcst$coef[3], color = "blue") + 
+  geom_vline(xintercept = mean(boot[[3]]), color = "green" ) + 
+  labs(title = "Boostrap MLE SMA(1)", x = "MLE SMA(1)")
+
+p4 <- ggplot(boot, aes(x = MLEsma2)) + 
+  geom_histogram(aes(y= ..density..), binwidth = 0.01) + 
+  stat_density(col = "red", geom = "line") +
+  geom_vline(xintercept = bt_fcst$coef[4], color = "blue") + 
+  geom_vline(xintercept = mean(boot[[4]]), color = "green" ) + 
+  labs(title = "Boostrap MLE SMA(2)", x = "MLE SMA(2)")
+
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+
+
+################ GARCH
+
+bt_diff <- diff(bt, 1, 7)
+
+adf.test(bt_diff)
+pp.test(bt_diff)
+
+layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
+plot(bt_diff)
+acf(bt_diff)
+pacf(bt_diff)
+
+# testing from library(fGarch)
+garchFit(data = bt_fcst$residuals)
+out <- garchFit(data = bt_fcst$residuals, cond.dist = "norm", include.mean = FALSE, trace = FALSE)
+
+
+coef(out)
+res <- bt_fcst$residuals/out@sigma.t
+
+layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
+plot(res)
+acf(res)
+pacf(res)
+
+
+# mont <- ggplot(monte, aes(x = value, y = ..density..)) + geom_histogram(binwidth = 0.01) + stat_density(col = "red", geom = "line") 
+
+
+
+
+
+
+
+
+
+
+

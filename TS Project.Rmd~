@@ -1,0 +1,29 @@
+% Robert Smith
+% Time Series Analysis Project
+% \today
+
+```{r setup,include=FALSE}
+
+library(xts)
+library(TSA)
+library(Forecast)
+library(lubridate)
+
+```
+
+# Background
+
+I intend to forecast Vehicle Miles Travelled (millions of miles). I accessed historical data from the [Federal Reserve Economic Data](https://research.stlouisfed.org/fred2/series/TRFVOLUSM227NFWA/downloaddata?cid=33202). 
+
+Upon initial analysis it was apparent that there is a high degree of seasonality within the data set, and over the time frame investigated (1970 - 2013) there is also a fairly significant overall upward trend.
+
+```{r initial}
+
+vmt <- read.csv("FRED_VMT.csv")
+names(vmt) <- c("date", "value")
+
+vmt_ts <- xts( x = vmt$value, order.by = ymd(vmt$date)
+
+
+```
+

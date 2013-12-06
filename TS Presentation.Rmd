@@ -1,0 +1,24 @@
+% Nicholas Larson & Robert Smith
+% Time Series Analysis Project
+% \today
+
+```{r setup,include=FALSE}
+
+acf.old <- acf
+library(TSA)
+library(tseries)
+library(forecast)
+library(ggplot2)
+library(xtable)
+
+acf <- acf.old
+
+opts_chunk$set(fig.path="figure/proj-",
+               warning=FALSE,error=FALSE,echo=TRUE,tidy=TRUE,
+               tidy.opts=list(keep.blank.lines=FALSE,width.cutoff=60),
+               dev='pdf',fig.height=7,fig.width=10)
+
+```
+
+
+

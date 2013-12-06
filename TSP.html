@@ -1,0 +1,69 @@
+<section class="slide level1" id="background">
+<h1 id="background">Background</h1>
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  bt
+## Dickey-Fuller = -4.381, Lag order = 7, p-value = 0.01
+## alternative hypothesis: stationary</code></pre>
+<pre><code>## 
+##  Phillips-Perron Unit Root Test
+## 
+## data:  bt
+## Dickey-Fuller Z(alpha) = -156.9, Truncation lag parameter = 5,
+## p-value = 0.01
+## alternative hypothesis: stationary</code></pre>
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  bt_diff
+## Dickey-Fuller = -20.28, Lag order = 7, p-value = 0.01
+## alternative hypothesis: stationary</code></pre>
+<pre><code>## 
+##  Phillips-Perron Unit Root Test
+## 
+## data:  bt_diff
+## Dickey-Fuller Z(alpha) = -676.1, Truncation lag parameter = 5,
+## p-value = 0.01
+## alternative hypothesis: stationary</code></pre>
+</section>
+<section class="slide level1" id="plots">
+<h1 id="plots">Plots</h1>
+<figure>
+<embed src="figure/proj-Plots.pdf"><figcaption>plot of chunk Plots</figcaption>
+</figure>
+</section>
+<section class="slide level1" id="auto-arima">
+<h1 id="auto-arima">Auto ARIMA</h1>
+<pre><code>## Series: bt 
+## ARIMA(0,1,2)(0,1,2)[7]                    
+## 
+## Coefficients:
+##          ma1     ma2    sma1   sma2
+##       -0.635  -0.198  -1.094  0.137
+## s.e.   0.049   0.053   0.054  0.055
+## 
+## sigma^2 estimated as 8835:  log likelihood=-2347
+## AIC=4705   AICc=4705   BIC=4725</code></pre>
+<figure>
+<embed src="figure/proj-AutoArima.pdf"><figcaption>plot of chunk AutoArima</figcaption>
+</figure>
+</section>
+<section class="slide level1" id="validation">
+<h1 id="validation">Validation</h1>
+<p>For the Model validation we decided to simulate with both Monte Carlo and Bootstrap estimates. Given the model we fit above,</p>
+<pre><code>## ymax not defined: adjusting position using y instead
+## ymax not defined: adjusting position using y instead
+## ymax not defined: adjusting position using y instead
+## ymax not defined: adjusting position using y instead</code></pre>
+<figure>
+<embed src="figure/proj-validation1.pdf"><figcaption>plot of chunk validation</figcaption>
+</figure>
+<pre><code>## ymax not defined: adjusting position using y instead
+## ymax not defined: adjusting position using y instead
+## ymax not defined: adjusting position using y instead
+## ymax not defined: adjusting position using y instead</code></pre>
+<figure>
+<embed src="figure/proj-validation2.pdf"><figcaption>plot of chunk validation</figcaption>
+</figure>
+</section>
